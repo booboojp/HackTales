@@ -1,8 +1,23 @@
-const { App } = require("@slack/bolt");
+const { App } = require('@slack/bolt');
+const { Logger, LogLevel } = require('./classes/Logger.js');
+const { HelloSlashCommandExport } = require('./commands/Hello.js');
+const { DearDiaryCommandExport } = require('./commands/DearDiary.js');
 require("dotenv").config();
-
+// LogLevel enum values:
+// DEBUG = 0  (Most verbose, shows everything)
+// INFO = 1   (Shows info and above)
+// WARN = 2   (Shows warnings and errors)
+// ERROR = 3  (Shows only errors)
+// NONE = 4   (Disables logging)
 class SlackApplication {
   constructor() {
+    this.logger = new Logger({
+      logLevel: LogLevel.DEBUG,
+      maxFileSize: 5 * 1024 * 1024, // This means 5mb because 1kb = 1024 bytes and 1mb = 1024kb and add them together to get 5mb.
+      maxFiles: 3,
+      logFile: 'slack-app-log.log'
+    });
+
     this.app = new App({
       token: process.env.SLACK_BOT_TOKEN,
       signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -13,8 +28,7 @@ class SlackApplication {
 
   async start() {
     await this.app.start();
-    console.log('⚡️ Bolt app started in socket mode!');
-
+    this.logger.info("<r>Red text</> normal text");
     process.on('SIGINT', () => this.shutdown('SIGINT'));
     process.on('SIGTERM', () => this.shutdown('SIGTERM')); 
 
@@ -22,19 +36,19 @@ class SlackApplication {
     try { 
       await this.app.client.chat.postMessage({
         token: process.env.SLACK_BOT_TOKEN,
-        channel: process.env.SLACK_CHANNEL_ID, 
+        channel: process.env.SLACK_LOGGING_CHANNEL_ID, 
+        text: 'The Storyteller Slack Application is now online.',
         blocks: [{
           "type": "header",
           "text": {
-            "type": "plain_text",
+            "type": "plain_text", 
             "text": `🟢 APPLICATION ONLINE - ${new Date().toLocaleString()}`,
             "emoji": true
           }
         }]
       });
-      console.log("Message sent successfully!");
     } catch (error) {
-      console.error("Error sending message:", error);
+      Logger.error("Error sending online message:", error);
     }
   }
   async shutdown(signal) {
@@ -44,6 +58,7 @@ class SlackApplication {
       await this.app.client.chat.postMessage({
         token: process.env.SLACK_BOT_TOKEN,
         channel: process.env.SLACK_CHANNEL_ID,
+        text: 'The Storyteller Slack Application is now offline.',
         blocks: [{
           "type": "header",
           "text": {
@@ -67,32 +82,43 @@ class CommandHandler {
   constructor(app) {
     this.app = app;
     this.commands = {
-      '/hello': this.handleHello.bind(this)
+      [HelloSlashCommandExport.command]: {
+        handler: HelloSlashCommandExport.execute.bind(HelloSlashCommandExport),
+        private: HelloSlashCommandExport.private,
+        privateDenyMessage: HelloSlashCommandExport.privateDenyMessage
+      },
+      [DearDiaryCommandExport.command]: {
+        handler: DearDiaryCommandExport.execute.bind(DearDiaryCommandExport),
+        private: DearDiaryCommandExport.private,
+        privateDenyMessage: DearDiaryCommandExport.privateDenyMessage
+      }
     };
   }
 
   registerCommands() {
-    for (const [command, handler] of Object.entries(this.commands)) {
-      this.app.command(command, handler);
+    for (const [command, config] of Object.entries(this.commands)) {
+      this.app.command(command, async ({ command, ack, respond, client }) => {
+        try {
+          if ((config.private && command.user_id !== process.env.SLACK_USER_ID)) {
+            await ack();
+            await respond({
+              text: `${config.privateDenyMessage}`,
+              response_type: 'ephemeral'
+            });
+            return;
+          }
+
+          await config.handler({ command, ack, respond, client }); 
+        } catch (error) {
+          console.error(`Error handling command ${command}:`, error);
+          await respond({
+            text: 'Sorry, there was an error processing your command.',
+            response_type: 'ephemeral'
+          });
+        }
+      });
     }
     console.log('Commands registered successfully!');
-  }
-
-  async handleHello({ command, ack, respond }) {
-    try {
-      await ack();
-      await respond({
-        text: `Hi there, <@${command.user_id}>! 👋`,
-        response_type: 'in_channel',
-      });
-      console.log('Command /hello executed successfully!');
-    } catch (error) {
-      console.error('Error handling /hello command:', error);
-      await respond({
-        text: 'Sorry, there was an error processing your command.',
-        response_type: 'ephemeral'
-      });
-    }
   }
 }
 
