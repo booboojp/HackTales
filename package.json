@@ -1,18 +1,49 @@
 {
-  "name": "blogging-bot",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "cls && node src/app.js"
+  "private": true,
+  "sideEffects": false,
+  "name": "hackclub_diary_bot",
+  "description": "A Slack Application built using Slack's Bolt SDK for the Node.js Runtime. Meant for posting blogs anonymously in Slack channels, though a system that is smooth, clean, private with a log of logging and records. This was made as an private self hosted alliterative to HackClub's Scrapbook.",
+  "version": "0.0.1",
+  "license": "GPL-3.0",
+  "main": "src/app.js",
+  "packageManager": "npm@10.9.0",
+  "author": {
+    "name": "An Anonymous HackClubber",
+    "url": "https://https://hackclub.com"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "engines": {
+    "node": "=>22.12.0",
+    "npm": "=>10.9.0"
+  },
+  "cpu": [
+    "arm", "arm64", "ia32", "mips", "mipsel", "ppc", "ppc64", "s390", "s390x", "x64"
+  ],
+  "os": [
+    "!aix", "!android", "darwin", "!freebsd", "linux", "!openbsd", "!sunos", "win32"
+  ],
+  "keywords": [
+    "Node.js, HackClub, HackClub Scrapbook, Hackathon, Programming, Blog, Diary, JavaScript, NPM, Slack Bot, Slack SDK, Slack API, Slack Bolt"
+  ],
+  "contributors": [
+    {
+      "name": "Anonymous Developer #1"
+    }
+  ],
+  "scripts": {
+    "start-windows": "cls && node src/app.js",
+    "start-linux": "clear && node src/app.js",
+    "start-mac": "clear && node src/app.js"
+  },
+  "config": {
+    "BlahajGood": "true"
+  },
   "dependencies": {
     "@slack/bolt": "^4.2.0",
     "@slack/oauth": "^3.0.2",
     "@slack/web-api": "^7.8.0",
     "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
