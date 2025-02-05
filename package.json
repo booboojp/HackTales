@@ -16,10 +16,26 @@
     "npm": "=>10.9.0"
   },
   "cpu": [
-    "arm", "arm64", "ia32", "mips", "mipsel", "ppc", "ppc64", "s390", "s390x", "x64"
+    "arm",
+    "arm64",
+    "ia32",
+    "mips",
+    "mipsel",
+    "ppc",
+    "ppc64",
+    "s390",
+    "s390x",
+    "x64"
   ],
   "os": [
-    "!aix", "!android", "darwin", "!freebsd", "linux", "!openbsd", "!sunos", "win32"
+    "!aix",
+    "!android",
+    "darwin",
+    "!freebsd",
+    "linux",
+    "!openbsd",
+    "!sunos",
+    "win32"
   ],
   "keywords": [
     "Node.js, HackClub, HackClub Scrapbook, Hackathon, Programming, Blog, Diary, JavaScript, NPM, Slack Bot, Slack SDK, Slack API, Slack Bolt"
@@ -30,6 +46,7 @@
     }
   ],
   "scripts": {
+    "dev": "nodemon src/app.js",
     "start-windows": "cls && node src/app.js",
     "start-linux": "clear && node src/app.js",
     "start-mac": "clear && node src/app.js"

@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-
+const { exec } = require('child_process');
 const LogLevel = {
     DEBUG: 0,
     INFO: 1,
@@ -37,6 +37,7 @@ class Logger {
         this.maxQueueSize = options.maxQueueSize || 100;
         this.maxFileSize = options.maxFileSize || 10 * 1024 * 1024; 
         this.maxFiles = options.maxFiles || 5;
+        this.isWindows = process.platform === 'win32';
         
         this.logsDir = path.join(process.cwd(), 'logs');
         this.logFile = path.join(this.logsDir, options.logFile || 'app.log');
@@ -112,6 +113,18 @@ class Logger {
             }
         }
     }
+    clearConsole() {
+        return new Promise((resolve) => {
+            if (this.isWindows) {
+                process.stdout.write('\x1Bc');  
+                process.stdout.write('\x1B[2J\x1B[0f');  
+                resolve();
+            } else {
+                process.stdout.write('\x1B[2J\x1B[0f'); 
+                resolve();
+            }
+        });
+    }
 
     async processQueue() {
         if (this.processing || this.queue.length === 0) return;
@@ -139,13 +152,30 @@ class Logger {
             this.processing = false;
         }
     }
+    formatTime() { return `[${(new Date()).getHours().toString().padStart(2, '0')}.${(new Date()).getMinutes().toString().padStart(2, '0')}.${(new Date()).getSeconds().toString().padStart(2, '0')}]`; }
+    async logTypewriter(level, message, color, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) {
+        (clearConsoleStart) ? (await this.clearConsole()) : (null);
+        (startDelay > 0) ? (await new Promise(resolve => setTimeout(resolve, startDelay))) : (null);
 
-    formatTime() {
-        const date = new Date();
-        return `[${date.getHours().toString().padStart(2, '0')}.${date.getMinutes().toString().padStart(2, '0')}.${date.getSeconds().toString().padStart(2, '0')}]`;
+    
+        let displayedMessage = '';
+        for (const char of message) {
+            displayedMessage += char;
+            const consoleMessage = `${color}${displayedMessage}${this.colors.reset}`;
+            process.stdout.write('\r' + consoleMessage);
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
+        (endDelay > 0) ? (await new Promise(resolve => setTimeout(resolve, endDelay))) : (null);
+        (clearConsoleEnd) ? (await this.clearConsole()) : (null);
     }
+    async debugTypewriter(message, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) { await this.logTypewriter(LogLevel.DEBUG, message, `${this.colors.white}${this.colors.bright}`, speed, startDelay, endDelay, clearConsoleStart, clearConsoleEnd); }
+    async infoTypewriter(message, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) { await this.logTypewriter(LogLevel.INFO, message, `${this.colors.blue}${this.colors.bright}`, speed, startDelay, endDelay, clearConsoleStart, clearConsoleEnd); }
+    async warnTypewriter(message, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) { await this.logTypewriter(LogLevel.WARN, message, `${this.colors.yellow}${this.colors.bright}`, speed, startDelay, endDelay, clearConsoleStart, clearConsoleEnd); }
+    async errorTypewriter(message, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) { await this.logTypewriter(LogLevel.ERROR, message, `${this.colors.red}${this.colors.bright}`, speed, startDelay, endDelay, clearConsoleStart, clearConsoleEnd); } 
+    async successTypewriter(message, speed = 50, startDelay = 0, endDelay = 0, clearConsoleStart = false, clearConsoleEnd = false) { await this.logTypewriter(LogLevel.INFO, message, `${this.colors.green}${this.colors.bright}`, speed, startDelay, endDelay, clearConsoleStart, clearConsoleEnd); }
 
     async log(level, message, color) {
+
         if (level < this.logLevel) return;
 
         const time = this.formatTime();
@@ -157,11 +187,8 @@ class Logger {
 
         this.queue.push({ level, consoleMessage, fileMessage });
 
-        if (this.queue.length >= this.maxQueueSize) {
-            await this.processQueue();
-        } else {
-            setImmediate(() => this.processQueue());
-        }
+
+        (this.queue.length >= this.maxQueueSize) ? (await this.processQueue()) : (setImmediate(() => this.processQueue()));
     }
 
     debug(message) { this.log(LogLevel.DEBUG, message, `${this.colors.white}${this.colors.bright}`); }
