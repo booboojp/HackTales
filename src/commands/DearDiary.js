@@ -1,44 +1,76 @@
 const fs = require('fs').promises;
+const { Logger, LogLevel } = require('../classes/Logger.js');
+const logger = new Logger({
+  logLevel: LogLevel.INFO,
+  maxFileSize: 5 * 1024 * 1024,
+  maxFiles: 3,
+  logFile: "slack-app-log.log",
+});
 const path = require('path');
 require("dotenv").config();
-
 const DearDiaryCommandExport = {
-    command: '/deardiary',
+    command: `/deardiary`,
     private: true,
-    privateDenyMessage: 'You are not the speaker of this story, sorry.',
+    privateDenyMessage: `You are not the speaker of this story, sorry.`,
     async execute({ command, client, ack, respond }) {
         try {
             await ack();
+            logger.info(`Acknowledged /deardiary command.`);
 
-            const logDir = path.join(__dirname, '../messageLog');
-            await fs.mkdir(logDir, { recursive: true });
+            const queueDir = path.join(__dirname, `../../data/queue`);
+            const files = await fs.readdir(queueDir);
+            logger.info(`Read files from queue directory: ${queueDir}`);
+            const pendingFiles = files.filter(f => f.startsWith(`queued-`));
+            logger.info(`Filtered pending files: ${pendingFiles}`);
 
-            const blocksPath = path.join(__dirname, '../data/diary-blocks.json');
-            const blocksData = await fs.readFile(blocksPath, 'utf8');
-            const { blocks } = JSON.parse(blocksData);
+            if (pendingFiles.length === 0) {
+                await respond({
+                    text: `The diary queue is empty.`,
+                    response_type: `ephemeral`,
+                });
+                logger.info(`Diary queue is empty.`);
+                return;
+            }
 
-            const channelId = process.env.SLACK_DIARY_CHANNEL_ID;
-            await client.chat.postMessage({
-                channel: channelId,
-                blocks: blocks,
-                text: "Daily Diary Entry" 
-            });
+            pendingFiles.sort();
+            const oldestFile = pendingFiles[0];
+            const filePath = path.join(queueDir, oldestFile);
+            const data = JSON.parse(await fs.readFile(filePath, `utf8`));
+            logger.info(`Loaded data from oldest file: ${filePath}`);
 
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-            const logPath = path.join(logDir, `diary-entry-${timestamp}.json`);
-            await fs.writeFile(logPath, blocksData);
+            try {
+                await client.chat.postMessage({
+                    channel: process.env.SLACK_DIARY_CHANNEL_ID,
+                    blocks: data.blocks,
+                });
+                logger.info(`Posted message to Slack channel: ${process.env.SLACK_DIARY_CHANNEL_ID}`);
 
-            await respond({
-                text: 'Diary entry posted successfully!',
-                response_type: 'ephemeral'
-            });
+                await fs.rename(
+                    filePath,
+                    path.join(__dirname, `../../data/sent`, `sent-${Date.now()}.json`)
+                );
+                logger.info(`Moved file to sent folder: ${filePath}`);
 
+                await respond({
+                    text: `Diary entry sent!`,
+                    response_type: `ephemeral`,
+                });
+                logger.info(`Responded with success message.`);
+            } catch (error) {
+                logger.error(`Error sending diary entry: ${error}`);
+                await respond({
+                    text: `Failed to post diary entry: ${error.message}`,
+                    response_type: `ephemeral`,
+                });
+            }
         } catch (error) {
-            console.error('Error handling /deardiary command:', error);
+            logger.error(`Error handling /deardiary command: ${error}`);
             await respond({
-                text: 'Sorry, there was an error processing your command.',
-                response_type: 'ephemeral'
+                text: `Sorry, there was an error processing your command.`,
+                response_type: `ephemeral`,
             });
+        } finally {
+            logger.info(`/deardiary command processing completed.`);
         }
     },
 };

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Block Kit Editor</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Block Kit Editor</h1>
+            <div class="actions">
+                <button onclick="saveCurrentState()">Save Current State</button>
+                <button onclick="clearEditor()">Clear Editor</button>
+            </div>
+        </header>
+
+        <main class="editor-layout">
+            <section class="editor-section">
+                <div class="block-controls">
+                    <button onclick="addHeader()">Add Header</button>
+                    <button onclick="addSection()">Add Section</button>
+                    <button onclick="addDivider()">Add Divider</button>
+                </div>
+
+                <div id="blockList" class="block-list"></div>
+                
+                <div class="preview">
+                    <h3>Preview</h3>
+                    <pre id="preview"></pre>
+                </div>
+
+                <div class="editor-actions">
+                    <button onclick="saveTemplate()">Save as Template</button>
+                    <button onclick="saveBlocks()">Save Blocks</button>
+                    <button onclick="updateQueueMessage()">Update Queue Message</button>
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                <section class="templates-list">
+                    <h2>Templates</h2>
+                    <ul>
+                    <% if (templates && templates.length) { %>
+                        <% templates.forEach(template => { %>
+                            <li>
+                                <span><%= template %></span>
+                                <button onclick="loadTemplate('<%= template %>')">Load</button>
+                                <button onclick="duplicateTemplate('<%= template %>')">Duplicate</button>
+                            </li>
+                        <% }) %>
+                    <% } else { %>
+                        <li>No templates saved</li>
+                    <% } %>
+                    </ul>
+                </section>
+
+                <section class="sent-messages">
+                    <h2>Sent Messages</h2>
+                    <ul>
+                    <% if (sentMessages && sentMessages.length) { %>
+                        <% sentMessages.forEach(msg => { %>
+                            <li>
+                                <span><%= msg %></span>
+                                <button onclick="loadMessage('<%= msg %>')">View</button>
+                            </li>
+                        <% }) %>
+                    <% } else { %>
+                        <li>No sent messages</li>
+                    <% } %>
+                    </ul>
+                </section>
+
+                <section class="queue">
+                    <h2>Message Queue</h2>
+                    <div class="queue-controls">
+                        <button onclick="sortQueueAlphabetically()">Sort Queue Alphabetically</button>
+                        <button onclick="refreshQueue()">Refresh Queue</button>
+                        <button onclick="addToQueue()">Add Current Blocks to Queue</button>
+                    </div>
+                    <ul id="queueList">
+                    <% if (queuedMessages && queuedMessages.length) { %>
+                        <% queuedMessages.forEach(msg => { %>
+                            <li data-filename="<%= msg %>">
+                                <span><%= msg %></span>
+                                <button onclick="removeFromQueue('<%= msg %>')">Remove</button>
+                                <button onclick="loadQueueMessageForEdit('<%= msg %>')">Edit</button>
+                            </li>
+                        <% }) %>
+                    <% } else { %>
+                        <li>Queue is empty</li>
+                    <% } %>
+                    </ul>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        // Get the current block thingies
+        window.blocks = <%- JSON.stringify(currentBlocks || []) %>;
+        window.lastSavedState = <%- JSON.stringify(lastSavedState || null) %>;
+    </script>
+    <script src="/app.js"></script>
+</body>
+</html>

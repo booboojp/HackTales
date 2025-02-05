@@ -1,13 +1,15 @@
 const { App } = require("@slack/bolt");
 const { Logger, LogLevel } = require("./classes/Logger.js");
 const { DearDiaryCommandExport } = require("./commands/DearDiary.js");
-const {
-  CreateChannelCommandExport,
-  DeleteChannelCommandExport,
-  ListChannelsCommandExport,
-} = require("./commands/ChannelCommands.js");
+const { PingSlashCommandExport } = require("./commands/Ping.js");
+const fs = require("fs").promises;
+const path = require('path');
+const QUEUE_DIR = path.join(__dirname, '../data/queue');
 require("dotenv").config();
 
+
+
+const HACKCLUB_INTRO = false;
 const BOT_NAME = 'The Storyteller'
 
 
@@ -25,6 +27,9 @@ const BOT_NAME = 'The Storyteller'
 
 class SlackApplication {
   constructor() {
+    if (process.env.DISABLE_QUEUE_PROCESSING !== 'true') {
+		setInterval(() => this.processQueue(), 5000);
+	  }
     this.logger = new Logger({
       logLevel: LogLevel.DEBUG,
       maxFileSize: 5 * 1024 * 1024,
@@ -40,53 +45,141 @@ class SlackApplication {
     });
   }
   async start() {
-	try {
-		await this.logger.infoTypewriter(`Booting up Application...`, 100, 1000, 1000, true, false);	
-		await this.logger.errorTypewriter(`Hackclub User Detected! Starting program!`, 100, 1000, 2000, true, true);
-		try { 
-			this.logger.info(`Starting Slack Application: (<m><bold>${BOT_NAME}</></>)`);
-			  await this.app.start();
-		} catch (error) { 
-			this.logger.error(`Error Starting Slack Application: (<m><bold>${BOT_NAME}</></>). Error: <bold><r>${error}</></>`);
-		} finally { 
-			this.logger.info(`Successfully Started Slack Application: (<m><bold>${BOT_NAME}</></>)`); 
-		}
-	
-		try {
-			this.logger.info("Setting up shutdown handlers...");
-			process.on("SIGINT", () => this.shutdown("SIGINT"));
-			process.on("SIGTERM", () => this.shutdown("SIGTERM"));
-		} catch (error) {
-			this.logger.error(`Error Setting up Shutdown Handlers: ${error}`);
-		} finally {
-			this.logger.info("Shutdown handlers set up successfully!");
-		}
-	
-		try {
-		  await this.app.client.chat.postMessage({
-			token: process.env.SLACK_BOT_TOKEN,
-			channel: process.env.SLACK_LOGGING_CHANNEL_ID,
-			text: "The Storyteller Slack Application is now online.",
-			blocks: [
-			  {
-				type: "header",
-				text: {
-				  type: "plain_text",
-				  text: `🟢 APPLICATION ONLINE - ${new Date().toLocaleString()}`,
-				  emoji: true,
-				},
-			  },
-			],
-		  });
-		} catch (error) {
-		  Logger.error("Error sending online message:", error);
-		}
-	} catch (error) {
+    try {
+    (HACKCLUB_INTRO) ? (await this.logger.infoTypewriter(`Booting up Application...`, 100, 1000, 1000, true, false)) : (null);
+    (HACKCLUB_INTRO) ? (await this.logger.errorTypewriter(`Hackclub User Detected! Starting program!`, 100, 1000, 2000, true, true)) : (null);
+        try { 
+            this.logger.info(`Starting Slack Application: (<m><bold>${BOT_NAME}</></>)`);
+              await this.app.start();
+        } catch (error) { 
+            this.logger.error(`Error Starting Slack Application: (<m><bold>${BOT_NAME}</></>). Error: <bold><r>${error}</></>`);
+        } finally { 
+            this.logger.info(`Successfully Started Slack Application: (<m><bold>${BOT_NAME}</></>)`); 
+        }
+    
+        try {
+            this.logger.info("Setting up shutdown handlers...");
+            process.on("SIGINT", () => this.shutdown("SIGINT"));
+            process.on("SIGTERM", () => this.shutdown("SIGTERM"));
+        } catch (error) {
+            this.logger.error(`Error Setting up Shutdown Handlers: ${error}`);
+        } finally {
+            this.logger.info("Shutdown handlers set up successfully!");
+        }
+    
+        try {
+          await this.app.client.chat.postMessage({
+            token: process.env.SLACK_BOT_TOKEN,
+            channel: process.env.SLACK_LOGGING_CHANNEL_ID,
+            text: "The Storyteller Slack Application is now online.",
+            blocks: [
+              {
+                type: "header",
+                text: {
+                  type: "plain_text",
+                  text: `🟢 APPLICATION ONLINE - ${new Date().toLocaleString()}`,
+                  emoji: true,
+                },
+              },
+            ],
+          });
+        } catch (error) {
+          Logger.error("Error sending online message:", error);
+        }
+    } catch (error) {
 
-	} finally {
+    } finally {
 
-	}
+    }
   }
+
+
+	async processQueue() {
+		try {
+			await fs.mkdir(QUEUE_DIR, { recursive: true });
+			const files = await fs.readdir(QUEUE_DIR);
+			const logFiles = files.map(file => file.length > 4 ? `${file.slice(0, 4)}...` : file);
+			const displayedFiles = logFiles.slice(0, 5);
+			this.logger.info(`Files in queue: ${displayedFiles.join(', ')}${logFiles.length > 5 ? ' x5' : ''}`);
+			const pendingFiles = files.filter(f => f.startsWith('queued-'));
+
+			for (const file of pendingFiles) {
+				const filePath = path.join(QUEUE_DIR, file);
+				const lockFilePath = `${filePath}.lock`; // No more changes ^W^
+
+				try {
+					await fs.writeFile(lockFilePath, '', { flag: 'wx' }); 
+				} catch (lockError) {
+					this.logger.warn(`Could not acquire lock for ${file}. Skipping.`);
+					continue; // Moving onn! Last stop! Tokyo!
+				}
+
+				try {
+					let data = JSON.parse(await fs.readFile(filePath, 'utf8'));
+					await this.logger.info(`Processing <b>${file}</> : <b>${data.status}</> : <b>${data.retries || 0}</> retries`);
+					if (data.status === 'pending' || (data.status === 'failed' && (data.retries || 0) < 3)) {
+						try {
+							await this.app.client.chat.postMessage({
+								channel: process.env.SLACK_DIARY_CHANNEL_ID,
+								blocks: data.blocks
+							});
+
+							if (await this.fileExists(filePath)) {
+								await this.safeRename(filePath, path.join(__dirname, '../data/sent', `sent-${Date.now()}.json`));
+							} else {
+								this.logger.warn(`File ${file} disappeared before rename.`);
+							}
+
+						} catch (error) {
+							data.status = 'failed';
+							data.error = error.message;
+							data.retries = (data.retries || 0) + 1;
+							await fs.writeFile(filePath, JSON.stringify(data));
+							this.logger.error(`Failed to process ${file}: ${error.message}`); 
+						}
+					} else if (data.status === 'failed' && (data.retries || 0) >= 3) {
+						this.logger.warn(`Message ${file} failed after 3 retries.  Skipping.`);
+					}
+				} finally {
+          // *unlocks your handcufs* Daddy?
+					await fs.unlink(lockFilePath);
+				}
+			}
+		} catch (error) {
+			console.error('Queue processing error:', error);
+		}
+	}
+
+	async safeRename(oldPath, newPath, retries = 3) {
+		try {
+			await fs.rename(oldPath, newPath);
+		} catch (err) {
+			this.logger.error(`Rename attempt failed for ${oldPath} after ${3 - retries} retries: ${err.message}`);
+			if (retries > 0) {
+				console.warn(`Rename failed, retrying... (${retries} retries remaining)`);
+				await new Promise(resolve => setTimeout(resolve, 1000)); 
+				await this.safeRename(oldPath, newPath, retries - 1);
+			} else {
+				throw err;
+			}
+		}
+	}
+
+	async fileExists(filePath, retries = 3) {
+		try {
+			await fs.access(filePath);
+			return true;
+		} catch (e) {
+			if (retries > 0) {
+				this.logger.warn(`File ${filePath} not found. Retrying... (${retries} retries remaining)`);
+				await new Promise(resolve => setTimeout(resolve, 100)); 
+				return this.fileExists(filePath, retries - 1); 
+			}
+			this.logger.error(`File ${filePath} not found after ${3 - retries} retries.`);
+			return false;
+		}
+	}
+
   async shutdown(signal) {
     console.log(`Received ${signal}. Shutting down gracefully...`);
 
@@ -125,28 +218,11 @@ class CommandHandler {
         private: DearDiaryCommandExport.private,
         privateDenyMessage: DearDiaryCommandExport.privateDenyMessage,
       },
-      [CreateChannelCommandExport.command]: {
-        handler: CreateChannelCommandExport.execute.bind(
-          CreateChannelCommandExport
-        ),
-        private: CreateChannelCommandExport.private,
-        privateDenyMessage: CreateChannelCommandExport.privateDenyMessage,
-      },
-      [DeleteChannelCommandExport.command]: {
-        handler: DeleteChannelCommandExport.execute.bind(
-          DeleteChannelCommandExport
-        ),
-        private: DeleteChannelCommandExport.private,
-        privateDenyMessage: DeleteChannelCommandExport.privateDenyMessage,
-      },
-      [ListChannelsCommandExport.command]: {
-        handler: ListChannelsCommandExport.execute.bind(
-          ListChannelsCommandExport
-        ),
-        private: ListChannelsCommandExport.private,
-        privateDenyMessage: ListChannelsCommandExport.privateDenyMessage,
-      },
-    };
+      [PingSlashCommandExport.command]: {
+        handler: PingSlashCommandExport.execute.bind(PingSlashCommandExport),
+        private: PingSlashCommandExport.private,
+        privateDenyMessage: PingSlashCommandExport.privateDenyMessage,
+    }};
   }
 
   registerCommands() {

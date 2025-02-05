@@ -1,4 +1,241 @@
-[16.54.54] INFO: Starting Slack Application: (The Storyteller)
-[16.54.55] INFO: Successfully Started Slack Application: (The Storyteller)
-[16.54.55] INFO: Setting up shutdown handlers...
-[16.54.55] INFO: Shutdown handlers set up successfully!
+[14.17.06] INFO: Express EJS server running on port 4000
+[14.17.09] INFO: Files in queue: queu..., queu...
+[14.17.09] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.09] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.09] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.09] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.14] INFO: Files in queue: queu..., queu...
+[14.17.14] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.14] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.14] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.14] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.19] INFO: Files in queue: queu..., queu...
+[14.17.19] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.19] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.19] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.19] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.24] INFO: Files in queue: queu..., queu...
+[14.17.24] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.24] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.24] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.24] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.29] INFO: Files in queue: queu..., queu...
+[14.17.29] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.29] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.29] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.29] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.34] INFO: Files in queue: queu..., queu...
+[14.17.34] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.34] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.34] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.34] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.39] INFO: Files in queue: queu..., queu...
+[14.17.39] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.39] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.39] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.39] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.44] INFO: Files in queue: queu..., queu...
+[14.17.44] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.44] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.44] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.44] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.49] INFO: Files in queue: queu..., queu...
+[14.17.49] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.49] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.49] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.49] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.54] INFO: Files in queue: queu..., queu...
+[14.17.54] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.54] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.54] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.54] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.17.59] INFO: Files in queue: queu..., queu...
+[14.17.59] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.17.59] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.17.59] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.17.59] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.04] INFO: Files in queue: queu..., queu...
+[14.18.04] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.04] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.04] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.04] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.09] INFO: Files in queue: queu..., queu...
+[14.18.09] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.09] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.09] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.09] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.14] INFO: Files in queue: queu..., queu...
+[14.18.14] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.14] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.14] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.14] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.19] INFO: Files in queue: queu..., queu...
+[14.18.19] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.19] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.19] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.19] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.24] INFO: Files in queue: queu..., queu...
+[14.18.24] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.24] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.24] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.24] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.29] INFO: Files in queue: queu..., queu...
+[14.18.29] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.29] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.29] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.29] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.34] INFO: Files in queue: queu..., queu...
+[14.18.34] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.34] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.34] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.34] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.39] INFO: Files in queue: queu..., queu...
+[14.18.39] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.39] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.39] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.39] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.44] INFO: Files in queue: queu..., queu...
+[14.18.44] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.44] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.44] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.44] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.49] INFO: Files in queue: queu..., queu...
+[14.18.49] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.49] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.49] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.49] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.54] INFO: Files in queue: queu..., queu...
+[14.18.54] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.54] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.54] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.54] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.18.59] INFO: Files in queue: queu..., queu...
+[14.18.59] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.18.59] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.18.59] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.18.59] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.04] INFO: Files in queue: queu..., queu...
+[14.19.04] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.04] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.04] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.04] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.09] INFO: Files in queue: queu..., queu...
+[14.19.09] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.09] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.09] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.09] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.14] INFO: Files in queue: queu..., queu...
+[14.19.14] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.14] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.14] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.14] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.19] INFO: Files in queue: queu..., queu...
+[14.19.19] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.19] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.19] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.19] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.24] INFO: Files in queue: queu..., queu...
+[14.19.24] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.24] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.24] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.24] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.29] INFO: Files in queue: queu..., queu...
+[14.19.29] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.29] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.29] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.29] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.34] INFO: Files in queue: queu..., queu...
+[14.19.34] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.34] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.34] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.34] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.39] INFO: Files in queue: queu..., queu...
+[14.19.39] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.39] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.39] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.39] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.44] INFO: Files in queue: queu..., queu...
+[14.19.44] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.44] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.44] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.44] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.49] INFO: Files in queue: queu..., queu...
+[14.19.49] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.49] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.49] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.49] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.54] INFO: Files in queue: queu..., queu...
+[14.19.54] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.54] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.19.54] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.19.54] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.19.59] INFO: Files in queue: queu..., queu...
+[14.19.59] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.19.59] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.00] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.00] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.05] INFO: Files in queue: queu..., queu...
+[14.20.05] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.05] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.05] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.05] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.10] INFO: Files in queue: queu..., queu...
+[14.20.10] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.10] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.10] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.10] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.15] INFO: Files in queue: queu..., queu...
+[14.20.15] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.15] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.15] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.15] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.20] INFO: Files in queue: queu..., queu...
+[14.20.20] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.20] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.20] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.20] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.25] INFO: Files in queue: queu..., queu...
+[14.20.25] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.25] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.25] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.25] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.30] INFO: Files in queue: queu..., queu...
+[14.20.30] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.30] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.30] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.30] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.35] INFO: Files in queue: queu..., queu...
+[14.20.35] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.35] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.35] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.35] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.40] INFO: Files in queue: queu..., queu...
+[14.20.40] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.40] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.40] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.40] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.45] INFO: Files in queue: queu..., queu...
+[14.20.45] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.45] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.45] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.45] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.50] INFO: Files in queue: queu..., queu...
+[14.20.50] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.50] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.50] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.50] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.20.55] INFO: Files in queue: queu..., queu...
+[14.20.55] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.20.55] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.20.55] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.20.55] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.21.00] INFO: Files in queue: queu..., queu...
+[14.21.00] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.21.00] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.21.00] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.21.00] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
+[14.21.05] INFO: Files in queue: queu..., queu...
+[14.21.05] INFO: Processing queued-1738781018895.json : failed : 3 retries
+[14.21.05] WARN: Message queued-1738781018895.json failed after 3 retries.  Skipping.
+[14.21.05] INFO: Processing queued-1738781118278.json : failed : 3 retries
+[14.21.05] WARN: Message queued-1738781118278.json failed after 3 retries.  Skipping.
