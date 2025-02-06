@@ -2,6 +2,10 @@ const { App } = require("@slack/bolt");
 const { Logger, LogLevel } = require("./classes/Logger.js");
 const { DearDiaryCommandExport } = require("./commands/DearDiary.js");
 const { PingSlashCommandExport } = require("./commands/Ping.js");
+const { SendMostRecentCommandExport } = require('./commands/SendMostRecent.js');
+const { ViewQueueCommandExport } = require('./commands/ViewQueueCommand');
+const { DeleteFromQueueCommandExport } = require('./commands/DeleteFromQueueCommand');
+const { MoveOrderCommandExport } = require('./commands/MoveOrderCommand');
 const fs = require("fs").promises;
 const path = require('path');
 const QUEUE_DIR = path.join(__dirname, '../data/queue');
@@ -43,6 +47,19 @@ class SlackApplication {
       socketMode: true,
       appToken: process.env.SLACK_APP_TOKEN,
     });
+  }
+  async ensureDirectories() {
+    const dirs = [
+        path.join(__dirname, '../data/queue'),
+        path.join(__dirname, '../data/sent'),
+        path.join(__dirname, '../data/blocks'),
+        path.join(__dirname, '../data/templates')
+    ];
+    
+    for (const dir of dirs) {
+        await fs.mkdir(dir, { recursive: true });
+        this.logger.info(`Ensured directory exists: ${dir}`);
+    }
   }
   async start() {
     try {
@@ -94,61 +111,72 @@ class SlackApplication {
   }
 
 
-	async processQueue() {
-		try {
-			await fs.mkdir(QUEUE_DIR, { recursive: true });
-			const files = await fs.readdir(QUEUE_DIR);
-			const logFiles = files.map(file => file.length > 4 ? `${file.slice(0, 4)}...` : file);
-			const displayedFiles = logFiles.slice(0, 5);
-			this.logger.info(`Files in queue: ${displayedFiles.join(', ')}${logFiles.length > 5 ? ' x5' : ''}`);
-			const pendingFiles = files.filter(f => f.startsWith('queued-'));
+  async processQueue() {
+    try {
+        const sentDir = path.join(__dirname, '../data/sent');
+        await fs.mkdir(sentDir, { recursive: true });
+        await fs.mkdir(QUEUE_DIR, { recursive: true });
 
-			for (const file of pendingFiles) {
-				const filePath = path.join(QUEUE_DIR, file);
-				const lockFilePath = `${filePath}.lock`; // No more changes ^W^
+        const files = await fs.readdir(QUEUE_DIR);
+        const logFiles = files.map(file => file.length > 4 ? `${file.slice(0, 4)}...` : file);
+        const displayedFiles = logFiles.slice(0, 5);
+        this.logger.info(`Files in queue: ${displayedFiles.join(', ')}${logFiles.length > 5 ? ' x5' : ''}`);
+        
+        const pendingFiles = files.filter(f => f.startsWith('queued-'));
 
-				try {
-					await fs.writeFile(lockFilePath, '', { flag: 'wx' }); 
-				} catch (lockError) {
-					this.logger.warn(`Could not acquire lock for ${file}. Skipping.`);
-					continue; // Moving onn! Last stop! Tokyo!
-				}
+        for (const file of pendingFiles) {
+            const filePath = path.join(QUEUE_DIR, file);
+            const lockFilePath = `${filePath}.lock`;
 
-				try {
-					let data = JSON.parse(await fs.readFile(filePath, 'utf8'));
-					await this.logger.info(`Processing <b>${file}</> : <b>${data.status}</> : <b>${data.retries || 0}</> retries`);
-					if (data.status === 'pending' || (data.status === 'failed' && (data.retries || 0) < 3)) {
-						try {
-							await this.app.client.chat.postMessage({
-								channel: process.env.SLACK_DIARY_CHANNEL_ID,
-								blocks: data.blocks
-							});
+            try {
+                await fs.writeFile(lockFilePath, '', { flag: 'wx' });
+            } catch (lockError) {
+                this.logger.warn(`Could not acquire lock for ${file}. Skipping.`);
+                continue;
+            }
 
-							if (await this.fileExists(filePath)) {
-								await this.safeRename(filePath, path.join(__dirname, '../data/sent', `sent-${Date.now()}.json`));
-							} else {
-								this.logger.warn(`File ${file} disappeared before rename.`);
-							}
+            try {
+                const data = JSON.parse(await fs.readFile(filePath, 'utf8'));
+                await this.logger.info(`Processing ${file} : ${data.status} : ${data.retries || 0} retries`);
 
-						} catch (error) {
-							data.status = 'failed';
-							data.error = error.message;
-							data.retries = (data.retries || 0) + 1;
-							await fs.writeFile(filePath, JSON.stringify(data));
-							this.logger.error(`Failed to process ${file}: ${error.message}`); 
-						}
-					} else if (data.status === 'failed' && (data.retries || 0) >= 3) {
-						this.logger.warn(`Message ${file} failed after 3 retries.  Skipping.`);
-					}
-				} finally {
-          // *unlocks your handcufs* Daddy?
-					await fs.unlink(lockFilePath);
-				}
-			}
-		} catch (error) {
-			console.error('Queue processing error:', error);
-		}
-	}
+                if (data.status === 'pending' || (data.status === 'failed' && (data.retries || 0) < 3)) {
+                    try {
+                        await this.app.client.chat.postMessage({
+                            channel: process.env.SLACK_DIARY_CHANNEL_ID,
+                            blocks: data.blocks
+                        });
+
+                        if (await this.fileExists(filePath)) {
+                            const sentPath = path.join(sentDir, `sent-${Date.now()}.json`);
+                            await this.safeRename(filePath, sentPath);
+                        }
+                    } catch (postError) {
+                        data.status = 'failed';
+                        data.retries = (data.retries || 0) + 1;
+                        data.lastError = postError.message;
+                        await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+                        
+                        if (data.retries >= 3) {
+                            this.logger.warn(`Message ${file} failed after 3 retries. Skipping.`);
+                        }
+                    }
+                } else if (data.status === 'failed' && data.retries >= 3) {
+                    this.logger.warn(`Skipping failed message ${file} (${data.retries} retries)`);
+                }
+            } catch (processError) {
+                this.logger.error(`Error processing ${file}: ${processError}`);
+            } finally {
+                try {
+                    await fs.unlink(lockFilePath);
+                } catch (unlinkError) {
+                    this.logger.error(`Error removing lock file for ${file}: ${unlinkError}`);
+                }
+            }
+        }
+    } catch (error) {
+        this.logger.error('Queue processing error:', error);
+    }
+}
 
 	async safeRename(oldPath, newPath, retries = 3) {
 		try {
@@ -222,25 +250,53 @@ class CommandHandler {
         handler: PingSlashCommandExport.execute.bind(PingSlashCommandExport),
         private: PingSlashCommandExport.private,
         privateDenyMessage: PingSlashCommandExport.privateDenyMessage,
-    }};
+      },
+      [SendMostRecentCommandExport.command]: {
+        handler: SendMostRecentCommandExport.execute.bind(SendMostRecentCommandExport),
+        private: SendMostRecentCommandExport.private,
+        privateDenyMessage: SendMostRecentCommandExport.privateDenyMessage,
+      },
+      [ViewQueueCommandExport.command]: {
+        handler: ViewQueueCommandExport.execute.bind(ViewQueueCommandExport),
+        private: ViewQueueCommandExport.private,
+        privateDenyMessage: ViewQueueCommandExport.privateDenyMessage,
+      },
+      [DeleteFromQueueCommandExport.command]: {
+        handler: DeleteFromQueueCommandExport.execute.bind(DeleteFromQueueCommandExport),
+        private: DeleteFromQueueCommandExport.private,
+        privateDenyMessage: DeleteFromQueueCommandExport.privateDenyMessage,
+      },
+      [MoveOrderCommandExport.command]: {
+        handler: MoveOrderCommandExport.execute.bind(MoveOrderCommandExport),
+        private: MoveOrderCommandExport.private,
+        privateDenyMessage: MoveOrderCommandExport.privateDenyMessage,
+      },
+    };
   }
 
   registerCommands() {
     for (const [command, config] of Object.entries(this.commands)) {
+      console.log(`Registering command: ${command}`);
       this.app.command(command, async ({ command, ack, respond, client }) => {
         try {
-          if (config.private && command.user_id !== process.env.SLACK_USER_ID) {
-            await ack();
-            await respond({
-              text: `${config.privateDenyMessage}`,
-              response_type: "ephemeral",
-            });
-            return;
+          console.debug(`Received command: ${command.command}`);
+          if (config.private) {
+            console.debug(`Command is private. Checking user ID...`);
+            if (command.user_id !== process.env.SLACK_USER_ID) {
+              console.debug(`User ID ${command.user_id} is not authorized.`);
+              await ack();
+              await respond({
+                text: `${config.privateDenyMessage}`,
+                response_type: "ephemeral",
+              });
+              return;
+            }
           }
 
+          console.debug(`Executing handler for command: ${command.command}`);
           await config.handler({ command, ack, respond, client });
         } catch (error) {
-          console.error(`Error handling command ${command}:`, error);
+          console.error(`Error handling command ${command.command}:`, error);
           await respond({
             text: "Sorry, there was an error processing your command.",
             response_type: "ephemeral",
