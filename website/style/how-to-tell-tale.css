@@ -1,0 +1,155 @@
+.how-to-tell-tale {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    padding: 112px 64px;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    color: #000;
+    justify-content: start;
+  }
+  
+  .section-header {
+    width: 768px;
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .main-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .main-description {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    margin-top: 24px;
+  }
+  
+  .steps-container {
+    align-self: stretch;
+    margin-top: 80px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .steps-grid {
+    display: flex;
+    min-height: 276px;
+    width: 100%;
+    align-items: start;
+    gap: 40px 48px;
+    justify-content: start;
+    flex-wrap: wrap;
+  }
+  
+  .step-card {
+    display: flex;
+    min-width: 240px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+    flex: 1;
+    flex-basis: 0%;
+  }
+  
+  .step-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 48px;
+    align-self: center;
+  }
+  
+  .step-content {
+    margin-top: 24px;
+    width: 100%;
+  }
+  
+  .step-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  
+  .step-description {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-top: 24px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    margin-top: 80px;
+    align-items: center;
+    gap: 24px;
+    font-size: 16px;
+    color: #000;
+    font-weight: 400;
+    justify-content: start;
+  }
+  
+  .btn-secondary {
+    border: 1px solid #000;
+    padding: 12px 24px;
+    gap: 8px;
+    overflow: hidden;
+  }
+  
+  .btn-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    align-self: stretch;
+    margin: auto;
+    flex-shrink: 0;
+  }
+  
+  @media (max-width: 991px) {
+    .how-to-tell-tale {
+      max-width: 100%;
+      padding: 100px 20px;
+    }
+  
+    .main-title {
+      max-width: 100%;
+      font-size: 40px;
+    }
+  
+    .main-description {
+      max-width: 100%;
+    }
+  
+    .steps-container {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+  
+    .steps-grid {
+      max-width: 100%;
+    }
+  
+    .action-buttons {
+      margin-top: 40px;
+    }
+  
+    .btn-secondary {
+      padding: 12px 20px;
+    }
+  }

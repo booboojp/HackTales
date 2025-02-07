@@ -1,0 +1,23 @@
+.taletelling-section {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    padding: 112px 64px;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    color: #000;
+    text-align: center;
+    justify-content: start;
+  }
+  
+  .section-header {
+    width: 768px;
+    max-width: 100%;
+  }
+  
+  .main-title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+  }

@@ -1,7 +1,7 @@
 {
   "private": true,
   "sideEffects": false,
-  "name": "hackclub_diary_bot",
+  "name": "hack_tales",
   "description": "A Slack Application built using Slack's Bolt SDK for the Node.js Runtime. Meant for posting blogs anonymously in Slack channels, though a system that is smooth, clean, private with a log of logging and records. This was made as an private self hosted alliterative to HackClub's Scrapbook.",
   "version": "0.0.1",
   "license": "GPL-3.0",
@@ -42,17 +42,19 @@
   ],
   "contributors": [
     {
-      "name": "Anonymous Developer #1"
+      "name": "Boo"
     }
   ],
   "scripts": {
-    "start:web": "node src/web/server.js",
-    "dev:web": "nodemon src/web/server.js",
-    "start:all": "concurrently \"npm run start\" \"npm run start:web\"",
-    "dev": "nodemon src/app.js",
-    "start-windows": "cls && node src/app.js",
-    "start-linux": "clear && node src/app.js",
-    "start-mac": "clear && node src/app.js"
+    "start:web": "node application/source/web/server.js",
+    "dev:web": "nodemon application/source/web/server.js",
+    "dev": "nodemon application/source/bot",
+    "start-windows": "cls && application/source/bot/app.js",
+    "dev:app:windows": "nodemon application/source/bot/app.js",
+    "start-linux": "clear && node application/source/bot/app.js",
+    "dev:app:linux": "nodemon application/source/bot/app.js",
+    "start-mac": "clear && node application/source/bot/app.js",
+    "dev:app:mac": "nodemon application/source/bot/app.js"
   },
   "config": {
     "BlahajGood": "true"
