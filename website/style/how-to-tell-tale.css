@@ -9,6 +9,7 @@
     color: #000;
     justify-content: start;
     box-sizing: border-box;
+    min-height: 800px;
   }
   
   .section-header {
@@ -40,19 +41,19 @@
     margin-top: 80px;
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
   }
   
   .steps-grid {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    min-height: 276px;
-    width: 100%;
-    align-items: start;
-    gap: 20px; 
-    justify-content: start;
-    flex-wrap: wrap;
-    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
   }
-  
   .step-card {
     display: flex;
     min-width: 240px;
@@ -90,6 +91,73 @@
     line-height: 24px;
     margin-top: 24px;
   }
+
+
+
+
+
+
+  .container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container .card {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(#fff2, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    transform: rotate(calc(var(--r) * 1deg)) translateX(0);
+    padding: 20px;
+    flex-direction: column;
+  }
+  
+  .container:hover .card {
+    transform: rotate(0deg);
+    margin: 0 10px;
+  }
+  
+  .container .card::before {
+    content: attr(data-text);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  
+  .container .cardsvg {
+    font-size: 2.5em;
+    fill: #fff;
+  }
+  .container .card:nth-child(1) { left: 50%; transform: translateX(-50%) rotate(-15deg); }
+  .container .card:nth-child(2) { left: 50%; transform: translateX(-50%) rotate(5deg); }
+  .container .card:nth-child(3) { left: 50%; transform: translateX(-50%) rotate(25deg); }
+  
+  .container:hover .card:nth-child(1) { transform: translateX(calc(-200% - 20px)) rotate(0deg); }
+  .container:hover .card:nth-child(2) { transform: translateX(-50%) rotate(0deg); }
+  .container:hover .card:nth-child(3) { transform: translateX(calc(100% + 20px)) rotate(0deg); }
+
+
+
+
+
+
+
 
   
   @media (max-width: 991px) {
