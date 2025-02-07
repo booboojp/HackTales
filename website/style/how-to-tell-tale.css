@@ -1,186 +1,188 @@
 .how-to-tell-tale {
-    background-color: #fff;
-    display: flex;
-    width: 100%;
-    padding: 20px; 
-    flex-direction: column;
-    overflow: hidden;
-    align-items: center;
-    color: #000;
-    justify-content: start;
-    box-sizing: border-box;
-    min-height: 800px;
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  color: #000;
+  justify-content: start;
+  box-sizing: border-box;
+  min-height: 800px;
+}
+
+.section-header {
+  width: 100%;
+  max-width: 768px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.main-title-hott {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  color: black;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.main-description {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+  margin-top: 24px;
+  word-wrap: break-word;
+}
+
+.steps-container {
+  align-self: stretch;
+  margin-top: 80px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.steps-grid {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+.step-card {
+  display: flex;
+  min-width: 240px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  flex: 1;
+  flex-basis: 0%;
+}
+
+.step-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 48px;
+  align-self: center;
+}
+
+.step-content {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.step-title {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.step-description {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-top: 24px;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .card {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(#fff2, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transform: rotate(calc(var(--r) * 1deg)) translateX(0);
+  padding: 20px;
+  flex-direction: column;
+}
+
+.container:hover .card {
+  transform: rotate(0deg);
+  margin: 0 10px;
+}
+
+.container .card::before {
+  content: attr(data-text);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.container .cardsvg {
+  font-size: 2.5em;
+  fill: #fff;
+}
+.container .card:nth-child(1) {
+  left: 50%;
+  transform: translateX(-50%) rotate(-15deg);
+}
+.container .card:nth-child(2) {
+  left: 50%;
+  transform: translateX(-50%) rotate(5deg);
+}
+.container .card:nth-child(3) {
+  left: 50%;
+  transform: translateX(-50%) rotate(25deg);
+}
+
+.container:hover .card:nth-child(1) {
+  transform: translateX(calc(-200% - 20px)) rotate(0deg);
+}
+.container:hover .card:nth-child(2) {
+  transform: translateX(-50%) rotate(0deg);
+}
+.container:hover .card:nth-child(3) {
+  transform: translateX(calc(100% + 20px)) rotate(0deg);
+}
+
+@media (max-width: 991px) {
+  .how-to-tell-tale {
+    max-width: 100%;
+    padding: 100px 20px;
   }
-  
-  .section-header {
-    width: 100%; 
-    max-width: 768px;
-    text-align: center;
-    box-sizing: border-box;
+
+  .main-title {
+    max-width: 100%;
+    font-size: 40px;
   }
-  
-  .main-title-hott {
-    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
-    color: black;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  
+
   .main-description {
-    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 27px;
-    margin-top: 24px;
-    word-wrap: break-word;
+    max-width: 100%;
   }
-  
+
   .steps-container {
-    align-self: stretch;
-    margin-top: 80px;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
+    max-width: 100%;
+    margin-top: 40px;
   }
-  
+
   .steps-grid {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
+    max-width: 100%;
   }
-  .step-card {
-    display: flex;
-    min-width: 240px;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: start;
-    flex: 1;
-    flex-basis: 0%;
-  }
-  
-  .step-icon {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 48px;
-    align-self: center;
-  }
-  
-  .step-content {
-    margin-top: 24px;
-    width: 100%;
-  }
-  
-  .step-title {
-    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  
-  .step-description {
-    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    margin-top: 24px;
-  }
-
-
-
-
-
-
-  .container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .container .card {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(#fff2, transparent);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.5s;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    transform: rotate(calc(var(--r) * 1deg)) translateX(0);
-    padding: 20px;
-    flex-direction: column;
-  }
-  
-  .container:hover .card {
-    transform: rotate(0deg);
-    margin: 0 10px;
-  }
-  
-  .container .card::before {
-    content: attr(data-text);
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-  }
-  
-  .container .cardsvg {
-    font-size: 2.5em;
-    fill: #fff;
-  }
-  .container .card:nth-child(1) { left: 50%; transform: translateX(-50%) rotate(-15deg); }
-  .container .card:nth-child(2) { left: 50%; transform: translateX(-50%) rotate(5deg); }
-  .container .card:nth-child(3) { left: 50%; transform: translateX(-50%) rotate(25deg); }
-  
-  .container:hover .card:nth-child(1) { transform: translateX(calc(-200% - 20px)) rotate(0deg); }
-  .container:hover .card:nth-child(2) { transform: translateX(-50%) rotate(0deg); }
-  .container:hover .card:nth-child(3) { transform: translateX(calc(100% + 20px)) rotate(0deg); }
-
-
-
-
-
-
-
-
-  
-  @media (max-width: 991px) {
-    .how-to-tell-tale {
-      max-width: 100%;
-      padding: 100px 20px;
-    }
-  
-    .main-title {
-      max-width: 100%;
-      font-size: 40px;
-    }
-  
-    .main-description {
-      max-width: 100%;
-    }
-  
-    .steps-container {
-      max-width: 100%;
-      margin-top: 40px;
-    }
-  
-    .steps-grid {
-      max-width: 100%;
-    }
-  }
+}
