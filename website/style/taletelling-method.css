@@ -20,13 +20,16 @@
 }
 
 
-.main-title {
+.main-title-tm {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  color: black;
   font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
 }
 
 .main-description {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
   font-size: 18px;
   font-weight: 400;
   line-height: 27px;
@@ -80,12 +83,14 @@
 }
 
 .feature-title {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
   font-size: 24px;
   font-weight: 700;
   line-height: 1.4;
 }
 
 .feature-description {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -101,13 +106,6 @@
   min-width: 240px;
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.action-buttons {
-  display: flex;
-  min-height: 48px;
-  margin-top: 80px;
-  gap: 24px;
 }
 
 @media (max-width: 991px) {

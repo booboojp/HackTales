@@ -21,9 +21,10 @@
   }
   
   .heading-column {
+    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
     min-width: 240px;
     font-size: 48px;
-    color: #000;
+    color: black;
     font-weight: 700;
     line-height: 58px;
     flex: 1;
@@ -31,6 +32,7 @@
   }
   
   .content-column {
+    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
     display: flex;
     min-width: 240px;
     flex-direction: column;
@@ -43,6 +45,7 @@
   }
   
   .description {
+    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
     color: #000;
     font-size: 18px;
     line-height: 27px;
@@ -62,6 +65,7 @@
   }
   
   .primary-button {
+    font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
     align-self: stretch;
     background-color: #000;
     border: 1px solid #000;
