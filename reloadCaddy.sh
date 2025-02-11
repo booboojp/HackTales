@@ -20,7 +20,7 @@ checkIfInNESTServer() {
 }
 
 reload_service() {
-    local service_name="catty"
+    local service_name="caddy"
     log_message "Service reload details:"
     log_message "Service name: $service_name"
     log_message "Attempting to reload $service_name service"
