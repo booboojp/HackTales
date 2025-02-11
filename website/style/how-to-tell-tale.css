@@ -186,3 +186,36 @@
     max-width: 100%;
   }
 }
+
+
+
+
+@keyframes verticalRainbow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+.rainbow-text {
+  background-image: linear-gradient(
+    0deg,
+    #ff0000,
+    #ff8000,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #8f00ff,
+    #ff0000
+  );
+  background-size: 100% 800%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: verticalRainbow 8s linear infinite;
+}
+
+
