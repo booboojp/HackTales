@@ -35,6 +35,16 @@
   margin: 0;
 }
 
+.sub-hero-title {
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  color: var(--HACKCLUB_BRANDED-muted);
+  font-size: 23px;
+  font-weight: 590;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
 .hero-description {
   font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
   font-size: 18px;
@@ -66,4 +76,78 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+}
+
+
+
+
+.text-wheel {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.text-wheel-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.words {
+  overflow: hidden;
+  height: 40px;
+  position: relative;
+}
+
+.word {
+  display: block;
+  height: 100%;
+  color: var(--HACKCLUB_BRANDED-orange);
+  font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
+  font-size: 23px;
+  font-weight: 590;
+  line-height: 40px;
+  animation: spinWords 8s infinite;
+}
+
+@keyframes spinWords {
+  10% {
+    transform: translateY(-102%);
+  }
+  25% {
+    transform: translateY(-100%);
+  }
+  35% {
+    transform: translateY(-202%);
+  }
+  50% {
+    transform: translateY(-200%);
+  }
+  60% {
+    transform: translateY(-302%);
+  }
+  75% {
+    transform: translateY(-300%);
+  }
+  85% {
+    transform: translateY(-402%);
+  }
+  100% {
+    transform: translateY(-400%);
+  }
+}
+
+
+.words::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    #fff 10%,
+    transparent 30%,
+    transparent 70%,
+    #fff 90%
+  );
+  pointer-events: none;
 }
