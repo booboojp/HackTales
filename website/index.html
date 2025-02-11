@@ -189,4 +189,50 @@
   function closeModal() { modal.style.display = "none"; document.body.style.overflow = "auto"; }
   window.onclick = function(event) { (event.target == model) ? (closeModal()) : (null) };
 </script>
+<script>
+  const repoUrl = "https://github.com/booboojp/HackTales";
+  const updateInterval = 3600000;
+  const corsProxy = 'https://corsproxy.io/?url='; 
+
+  async function updateGradient() {
+    try {
+      const response = await fetch(corsProxy + repoUrl);
+      const html = await response.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+
+      const progressItems = doc.querySelectorAll('.Progress-item');
+      const colors = [];
+
+      progressItems.forEach(item => {
+        const style = item.getAttribute('style');
+        const colorMatch = style.match(/background-color:(#[0-9a-fA-F]+)/);
+        if (colorMatch) {
+          colors.push(colorMatch[1]);
+        }
+      });
+      const gradientColors = colors.join(', ');
+      const root = document.documentElement;
+      root.style.setProperty('--gradient-colors', gradientColors);
+
+
+      updateCtaSection(gradientColors);
+
+      console.log("Gradient updated successfully!");
+    } catch (error) {
+      console.error("Error updating gradient:", error);
+    }
+  }
+
+  updateGradient();
+  setInterval(updateGradient, updateInterval);
+
+  function updateCtaSection(gradientColors) {
+    const ctaHeading = document.querySelector('.cta-section .heading-column');
+    ctaHeading.style.backgroundImage = `linear-gradient(to right, ${gradientColors})`;
+    ctaHeading.style.webkitBackgroundClip = "text";
+    ctaHeading.style.webkitTextFillColor = "transparent";
+  }
+</script>
 </html>

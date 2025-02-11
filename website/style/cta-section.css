@@ -24,11 +24,13 @@
     font-family: var(--HACKCLUB_BRANDED-font_phantom-sans);
     min-width: 240px;
     font-size: 48px;
-    color: black;
     font-weight: 700;
     line-height: 58px;
     flex: 1;
     flex-shrink: 1;
+    background: linear-gradient(to right, var(--gradient-colors));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   .content-column {
