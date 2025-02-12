@@ -2,11 +2,12 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-
+// Set up EJS and layouts
 app.set('view engine', 'ejs');
-
 app.set('views', path.join(__dirname, 'views'));
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.redirect('/home');

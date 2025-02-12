@@ -1,3 +1,10 @@
+<head>
+  <link rel="stylesheet" href="../css/root.css">
+  <link rel="stylesheet" href="../css/hero.css">
+  <link rel="stylesheet" href="../css/taletelling-method.css">
+  <link rel="stylesheet" href="../css/how-to-tell-tale.css">
+  <link rel="stylesheet" href="../css/cta-section.css">
+</head>
 <section class="hero">
         <div class="hero-column">
           <div class="hero-content">
@@ -173,7 +180,7 @@
   const modal = document.getElementById('postModal');
   function openModal() { modal.style.display = "block"; document.body.style.overflow = "hidden"; }
   function closeModal() { modal.style.display = "none"; document.body.style.overflow = "auto"; }
-  window.onclick = function(event) { (event.target == model) ? (closeModal()) : (null) };
+  window.onclick = function(event) { (event.target == modal) ? closeModal() : null };
 </script>
 <script>
   const repoUrl = "https://github.com/booboojp/HackTales";
@@ -220,4 +227,7 @@
     ctaHeading.style.webkitBackgroundClip = "text";
     ctaHeading.style.webkitTextFillColor = "transparent";
   }
+  window.onload = function() {
+    console.log("Page has loaded successfully!");
+  };
 </script>
