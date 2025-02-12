@@ -2,7 +2,6 @@ const commits = [
     {
         // Basic Info
         id: 1,
-        icon: '<path d="M3 3h18v18H3z" stroke-width="2"/><path d="M9 12h6M12 9v6" stroke-width="2" stroke-linecap="round"/>',
         title: 'Update dependencies',
         subtitle: 'main',
         
@@ -108,6 +107,75 @@ const defaultSvg = `
     <path d="M9 12h6M12 9v6" stroke-width="2" stroke-linecap="round"/>
 </svg>
 `;
+
+
+const sortingOptions = [
+    {
+        id: 'recent',
+        displayText: 'Recent Commits',
+        sortFunction: () => {
+            console.log('Sorting by recent commits');
+        }
+    },
+    {
+        id: 'additions',
+        displayText: 'Most Additions',
+        sortFunction: () => {
+           console.log('Sorting by most additions');
+        }
+    },
+    {
+        id: 'deletions',
+        displayText: 'Most Deletions',
+        sortFunction: () => {
+            console.log('Sorting by most deletions');
+        }
+    },
+    {
+        id: 'files',
+        displayText: 'Most Files Changed',
+        sortFunction: () => {
+            console.log('Sorting by most files changed');
+        }
+    }
+];
+
+let currentSortingIndex = 0;
+
+document.querySelector('.sort-text').addEventListener('click', () => {
+    const sortText = document.querySelector('.sort-text');
+    sortText.classList.add('switching');
+    
+    setTimeout(() => {
+        currentSortingIndex = (currentSortingIndex + 1) % sortingOptions.length;
+        const newOption = sortingOptions[currentSortingIndex];
+        sortText.textContent = newOption.displayText;
+        newOption.sortFunction();
+        
+        setTimeout(() => {
+            sortText.classList.remove('switching');
+        }, 100);
+    }, 200);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
