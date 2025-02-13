@@ -1,0 +1,29 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - production  # Triggers on pushes to the 'production' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H hackclub.app >> ~/.ssh/known_hosts
+
+      - name: Deploy Code to Server
+        run: |
+          ssh boo@hackclub.app << 'EOF'
+            cd /home/boo/cd  # Change this to your project path
+            git pull origin production
+            ./reloadCaddy.sh  # Replace with your actual command
+          EOF
