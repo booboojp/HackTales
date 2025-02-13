@@ -32,7 +32,7 @@ jobs:
           mkdir -p ~/.ssh || exit 1
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519 || exit 1
           chmod 600 ~/.ssh/id_ed25519 || exit 1
-          ssh-keyscan -H hackclub.app >> ~/.ssh/known_hosts || exit 1
+          ssh-keyscan -H hackclub.app >> ~/.ssh/authorized_keys || exit 1
 
       - name: Log SSH Setup Status
         if: always()
