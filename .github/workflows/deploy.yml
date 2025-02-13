@@ -3,7 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - production  # Triggers on pushes to the 'production' branch
+      - production 
 
 jobs:
   deploy:
@@ -11,19 +11,71 @@ jobs:
 
     steps:
       - name: Checkout Repository
+        id: checkout
+        continue-on-error: true
         uses: actions/checkout@v4
 
-      - name: Set Up SSH Key
+      - name: Log Checkout Status
+        if: always()
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H hackclub.app >> ~/.ssh/known_hosts
+          if [ "${{ steps.checkout.outcome }}" == "success" ]; then
+            echo "✅ Checkout successful"
+          else
+            echo "❌ Checkout failed"
+            exit 1
+          fi
+
+      - name: Set Up SSH Key
+        id: ssh-setup
+        continue-on-error: true
+        run: |
+          mkdir -p ~/.ssh || exit 1
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519 || exit 1
+          chmod 600 ~/.ssh/id_ed25519 || exit 1
+          ssh-keyscan -H hackclub.app >> ~/.ssh/known_hosts || exit 1
+
+      - name: Log SSH Setup Status
+        if: always()
+        run: |
+          if [ "${{ steps.ssh-setup.outcome }}" == "success" ]; then
+            echo "✅ SSH setup successful"
+          else
+            echo "❌ SSH setup failed"
+            exit 1
+          fi
 
       - name: Deploy Code to Server
+        id: deploy
+        continue-on-error: true
         run: |
-          ssh boo@hackclub.app << 'EOF'
-            cd /home/boo/cd  # Change this to your project path
+          if ! ssh boo@hackclub.app << 'EOF'
+            set -e
+            echo "📂 Changing directory..."
+            cd /home/boo/pub 
+            echo "🔄 Pulling latest changes..."
             git pull origin production
-            ./reloadCaddy.sh  # Replace with your actual command
+            echo "🔄 Reloading Caddy..."
+            ./reloadCaddy.sh
           EOF
+          then
+            echo "❌ Deployment failed"
+            exit 1
+          fi
+
+      - name: Log Deployment Status
+        if: always()
+        run: |
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+            echo "✅ Deployment successful"
+          else
+            echo "❌ Deployment failed"
+            exit 1
+          fi
+
+      - name: Notify Deployment Status
+        if: always()
+        run: |
+          echo "Deployment Summary:"
+          echo "Checkout: ${{ steps.checkout.outcome }}"
+          echo "SSH Setup: ${{ steps.ssh-setup.outcome }}"
+          echo "Deploy: ${{ steps.deploy.outcome }}"
